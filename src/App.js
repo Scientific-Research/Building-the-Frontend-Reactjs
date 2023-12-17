@@ -1,7 +1,11 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
-function App() {
-  return <h1>Let's start!</h1>;
-}
+const App = () => {
+  // return <h1>Let's start!</h1>;
+  return <Router>
+    
+  </Router>;
+};
 
 export default App;
