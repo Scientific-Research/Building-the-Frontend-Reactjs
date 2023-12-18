@@ -7,7 +7,8 @@ export const Users = () => {
     {
       id: "u1",
       name: "Max Schwarz",
-      image: "https://images.pexels.com/photos/825904/pexels-photo-825904.jpeg",
+      image:
+        "https://images.pexels.com/photos/19456584/pexels-photo-19456584/free-photo-of-lebensmittel-restaurant-strasse-mexikanisch.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       places: 3,
     },
   ];
