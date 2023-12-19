@@ -9,6 +9,7 @@ import {
 import { Users } from "./user/pages/Users";
 import { NewPlace } from "./places/pages/NewPlace";
 import { MainNavigation } from "./shared/components/Navigation/MainNavigation";
+import { UserPlaces } from "./places/pages/UserPlaces";
 
 const App = () => {
   // return <h1>Let's start!</h1>;
@@ -17,8 +18,9 @@ const App = () => {
       <MainNavigation />
       <main>
         <Routes>
-          <Route path="/places/new" element={<NewPlace />}></Route>
           <Route path="/" element={<Users />} />
+          <Route path="/:userId/places" element={<UserPlaces />} />
+          <Route path="/places/new" element={<NewPlace />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
