@@ -6,7 +6,13 @@ export const NewPlace = () => {
   // return <h2>NewPlace Works!</h2>;
   return (
     <form className="place-form">
-      <Input element="input" type="text" label="Title" />
+      <Input
+        element="input"
+        type="text"
+        label="Title"
+        validators={[]}
+        errorText="Please enter a valid title!"
+      />
     </form>
   );
 };
