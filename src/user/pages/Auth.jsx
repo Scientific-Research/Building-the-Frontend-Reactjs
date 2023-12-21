@@ -59,7 +59,13 @@ export const Auth = () => {
   };
   return (
     <Card className="authentication">
-      <h2>Login Required!</h2>
+      {/* <h2>Login Required!</h2> */}
+      {/* <h2>{isLoginMode ? "Login" : "Signup"} Required!</h2> */}
+      <h2>
+        {isLoginMode
+          ? "Please log in to your account"
+          : "Please create a new account"}
+      </h2>
       <hr />
       <form onSubmit={authSubmitHandler}>
         {!isLoginMode && (
