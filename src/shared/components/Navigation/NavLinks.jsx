@@ -11,17 +11,16 @@ export const NavLinks = (props) => {
       <li>
         <NavLink to="/">ALL USERS</NavLink>
       </li>
-      {auth.isLoggedIn &&
-        ((
-          <li>
-            <NavLink to="/u1/places">MY PLACES</NavLink>
-          </li>
-        ),
-        (
-          <li>
-            <NavLink to="/places/new">ADD PLACE</NavLink>
-          </li>
-        ))}
+      {auth.isLoggedIn && (
+        <li>
+          <NavLink to="/u1/places">MY PLACES</NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && (
+        <li>
+          <NavLink to="/places/new">ADD PLACE</NavLink>
+        </li>
+      )}
       {!auth.isLoggedIn && (
         <li>
           <NavLink to="/auth">AUTHENTICATE</NavLink>
