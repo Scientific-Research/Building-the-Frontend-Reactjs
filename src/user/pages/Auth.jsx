@@ -64,10 +64,37 @@ export const Auth = () => {
   const authSubmitHandler = async (e) => {
     e.preventDefault();
     // console.log(formState.inputs);
+    setIsLoading(true);
+
     if (isLoginMode) {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+        const responseData = await response.json();
+        if (!response.ok) {
+          // when the response is not 200 or 400
+          throw new Error(responseData.message); // it goes from here directly to the catch()
+        }
+        console.log(responseData);
+        setIsLoading(false);
+        auth.login();
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+        setError(
+          err.message || "Something went wrong, please try again later!"
+        );
+      }
     } else {
       try {
-        setIsLoading(true);
         const response = await fetch("http://localhost:5000/api/users/signup", {
           method: "POST",
           headers: {
