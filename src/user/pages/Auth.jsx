@@ -80,9 +80,12 @@ export const Auth = () => {
           }),
         });
         const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
         console.log(responseData);
-        auth.login();
         setIsLoading(false);
+        auth.login();
       } catch (err) {
         console.log(err);
         setIsLoading(false);
