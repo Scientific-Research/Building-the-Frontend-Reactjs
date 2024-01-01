@@ -23,15 +23,23 @@ export const useHttpClient = () => {
         });
         // first of all, extract the data
         const responseData = await response.json();
+        // Once we have the response => it means request is already completed!
+        // and then filter(remove) the request controller which is responsible for this request out!
+        // this keeps every controller excepts for the controller which was used in this request!
+        activeHttpRequests.current = activeHttpRequests.current.filter(
+          (reqCtrl) => reqCtrl !== httpAbortCtrl
+        );
         // throw an erorr if we have 400 or 500 response code
         if (!response.ok) {
           throw new Error(responseData.message);
         }
+        setIsLoading(false);
         return responseData;
       } catch (err) {
         setError(err.message);
+        setIsLoading(false);
+        throw err;
       }
-      setIsLoading(false);
     },
     []
   );
