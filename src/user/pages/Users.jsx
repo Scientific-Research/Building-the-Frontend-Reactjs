@@ -3,35 +3,41 @@ import React, { useEffect, useState } from "react";
 import { UsersList } from "../components/UsersList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 export const Users = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
   const [loadedUsers, setLoadedUsers] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState();
 
   useEffect(() => {
-    const sendRequest = async () => {
-      setIsLoading(true);
+    const fetchUsers = async () => {
+      // setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:5000/api/users");
+        // const response = await fetch("http://localhost:5000/api/users");
+        const responseData = await sendRequest(
+          "http://localhost:5000/api/users"
+        );
 
-        const responseData = await response.json();
-        console.log(responseData);
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
+        // const responseData = await response.json();
+        // console.log(responseData);
+        // if (!response.ok) {
+        //   throw new Error(responseData.message);
+        // }
 
         setLoadedUsers(responseData.users);
       } catch (err) {
-        setError(err.message);
+        // setError(err.message);
       }
-      setIsLoading(false);
+      // setIsLoading(false);
     };
-    sendRequest();
-  }, []);
+    fetchUsers();
+  }, [sendRequest]);
 
   const errorHandler = () => {
-    setError(null);
+    // setError(null);
+    clearError();
   };
 
   return (
