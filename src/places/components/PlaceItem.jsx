@@ -37,13 +37,17 @@ export const PlaceItem = (props) => {
     setShowConfirmModal(false); // to close the modal like CANCEL
     // console.log("DELETING...");
     try {
-      sendRequest(`http://localhost:5000/api/places/${props.id}`, "DELETE");
+      await sendRequest(
+        `http://localhost:5000/api/places/${props.id}`,
+        "DELETE"
+      );
       props.onDelete(props.id);
     } catch (err) {}
   };
 
   return (
     <>
+      <ErrorModal error={error} onClear={clearError} />
       {/* a modal for showMap function */}
       <Modal
         show={showMap}
@@ -82,6 +86,7 @@ export const PlaceItem = (props) => {
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
+          {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">
             <img src={props.image} alt={props.title} />
           </div>
