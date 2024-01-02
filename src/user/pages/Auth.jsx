@@ -69,7 +69,7 @@ export const Auth = () => {
 
     if (isLoginMode) {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           "http://localhost:5000/api/users/login",
           "POST",
           JSON.stringify({
@@ -83,7 +83,7 @@ export const Auth = () => {
           // headers: {
           // },
         );
-        auth.login();
+        auth.login(responseData.user.id);
       } catch (err) {}
       // try {
       // we make some changes here according to our custom hook => http-hook.js
@@ -106,7 +106,7 @@ export const Auth = () => {
     } else {
       try {
         // const response = await fetch("http://localhost:5000/api/users/signup", {
-        await sendRequest(
+        const responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
           JSON.stringify({
@@ -128,7 +128,7 @@ export const Auth = () => {
         // }
         // console.log(responseData);
         // setIsLoading(false);
-        auth.login();
+        auth.login(responseData.user.id);
       } catch (err) {
         // console.log(err);
         // setIsLoading(false);
