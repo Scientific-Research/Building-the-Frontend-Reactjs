@@ -4,11 +4,15 @@ import Card from "./../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import { Modal } from "../../shared/components/UIElements/Modal";
 import { Map } from "../../shared/components/UIElements/Map";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { AuthContext } from "../../shared/context/auth-context";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import "./PlaceItem.css";
 
 export const PlaceItem = (props) => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -29,9 +33,13 @@ export const PlaceItem = (props) => {
     setShowConfirmModal(false);
   };
 
-  const confirmDeleteHandler = () => {
-    console.log("DELETING...");
+  const confirmDeleteHandler = async () => {
     setShowConfirmModal(false); // to close the modal like CANCEL
+    // console.log("DELETING...");
+    try {
+      sendRequest(`http://localhost:5000/api/places/${props.id}`, "DELETE");
+      props.onDelete(props.id);
+    } catch (err) {}
   };
 
   return (
