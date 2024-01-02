@@ -101,10 +101,14 @@ export const PlaceItem = (props) => {
             </Button>
             {auth.isLoggedIn && (
               <>
-                <Button to={`/places/${props.id}`}>EDIT</Button>
-                <Button danger onClick={showDeleteWarningHandler}>
-                  DELETE
-                </Button>
+                {auth.userId === props.creatorId && (
+                  <Button to={`/places/${props.id}`}>EDIT</Button>
+                )}
+                {auth.userId === props.creatorId && (
+                  <Button danger onClick={showDeleteWarningHandler}>
+                    DELETE
+                  </Button>
+                )}
               </>
             )}
           </div>
