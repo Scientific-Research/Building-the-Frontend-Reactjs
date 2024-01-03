@@ -70,7 +70,7 @@ export const Auth = () => {
 
   const authSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(formState.inputs);
+    // console.log(formState.inputs);
     // setIsLoading(true);
 
     if (isLoginMode) {
@@ -111,20 +111,31 @@ export const Auth = () => {
       // }
     } else {
       try {
+        const formData = new FormData();
+        // in formData we can attach text data like name, email, password and also binary Data
+        // for images => it means fortunately different types of Data!
+        formData.append("email", formState.inputs.email.value);
+        formData.append("name", formState.inputs.name.value);
+        formData.append("password", formState.inputs.password.value);
+        formData.append("image", formState.inputs.image.value);
         // const response = await fetch("http://localhost:5000/api/users/signup", {
         const responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
-          JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
+          formData
+          // fetch data under the hood of sendRequest will detect the right headers
+          // therefore, with formData , we don't need to use headers anymore!
+
+          // JSON.stringify({
+          //   name: formState.inputs.name.value,
+          //   email: formState.inputs.email.value,
+          //   password: formState.inputs.password.value,
+          // }),
           // method: "POST",
           // headers: {
-          {
-            "Content-Type": "application/json",
-          }
+          // {
+          //   "Content-Type": "application/json",
+          // }
           // },
           // body: ,
         );
