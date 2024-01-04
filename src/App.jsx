@@ -19,11 +19,7 @@ const App = () => {
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
 
-  // React runs all the rest of the Program firstly and then runs this useEffect()
-  useEffect(() => {
-    localStorage.getItem("userData");
-  }, []);
-
+  // because of this callBack, login runs once and not infinite
   const login = useCallback((uid, token) => {
     // setIsLoggedIn(true);
     setToken(token);
@@ -33,11 +29,24 @@ const App = () => {
     );
     setUserId(uid);
   }, []);
+
   const logout = useCallback(() => {
     // setIsLoggedIn(false);
     setToken(null);
     setUserId(null);
+    localStorage.removeItem("userData");
   }, []);
+
+  // Auto-login when we reload the Page:=> App.jsx as first page runs and login as dependency to this
+  // to this useEffect after compiler rans all other codes in this page!
+  // React runs all the rest of the Program firstly and then runs this useEffect()
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("userData")); // to convert JSON to normal
+    // object in JavaScript - storedData is what i get from LocalStorage in Browser!
+    if (storedData && storedData.token) {
+      login(storedData.userId, storedData.token);
+    }
+  }, [login]);
 
   let routes;
   // if (isLoggedIn) {
