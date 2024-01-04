@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -18,6 +18,11 @@ const App = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
+
+  // React runs all the rest of the Program firstly and then runs this useEffect()
+  useEffect(() => {
+    localStorage.getItem("userData");
+  }, []);
 
   const login = useCallback((uid, token) => {
     // setIsLoggedIn(true);
