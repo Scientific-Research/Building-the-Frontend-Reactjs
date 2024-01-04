@@ -15,20 +15,24 @@ import { Auth } from "./user/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
 
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    // setIsLoggedIn(true);
+    setToken(token);
     setUserId(uid);
   }, []);
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    // setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
   }, []);
 
   let routes;
-  if (isLoggedIn) {
+  // if (isLoggedIn) {
+  if (token) {
     routes = (
       <>
         <Route path="/" element={<Users />} />
@@ -52,7 +56,12 @@ const App = () => {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        // isLoggedIn: isLoggedIn,
+        isLoggedIn: !!token, // !! will convert it to the True if it is a token or string,
+        // unless false, if it is null
+        // we save token here in a variable with the same name to use it later!
+        // its default value stored in auth-context.jsx => token:null
+        token: token,
         userId: userId,
         login: login,
         logout: logout,

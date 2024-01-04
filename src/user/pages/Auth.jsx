@@ -89,7 +89,7 @@ export const Auth = () => {
           // headers: {
           // },
         );
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {}
       // try {
       // we make some changes here according to our custom hook => http-hook.js
@@ -145,7 +145,7 @@ export const Auth = () => {
         // }
         // console.log(responseData);
         // setIsLoading(false);
-        auth.login(responseData.user.id);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {
         // console.log(err);
         // setIsLoading(false);

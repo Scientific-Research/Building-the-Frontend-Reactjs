@@ -61,7 +61,11 @@ export const NewPlace = () => {
       await sendRequest(
         "http://localhost:5000/api/places",
         "POST",
-        formData
+        formData,
+        {
+          Authorization: "Bearer " + auth.token, // Auth.context=>token: null=>token: token in App.jsx
+          // const auth = useContext(AuthContext) => auth.token
+        }
         // JSON.stringify({
         //   title: formState.inputs.title.value,
         //   description: formState.inputs.description.value,
