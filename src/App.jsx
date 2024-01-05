@@ -14,9 +14,12 @@ import { UpdatePlace } from "./places/pages/UpdatePlace";
 import { Auth } from "./user/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 
+let logoutTimer;
+
 const App = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(false);
+  const [tokenExpirationDate, setTokenExpirationDate] = useState();
   const [userId, setUserId] = useState(false);
 
   // because of this callBack, login runs once and not infinite
@@ -26,7 +29,9 @@ const App = () => {
     setUserId(uid);
     const tokenExpirationDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60); // it gives us the
+    // expirationDate || new Date(new Date().getTime() + 2000); // it gives us the
     // current time plus one hour!
+    setTokenExpirationDate(tokenExpirationDate);
     localStorage.setItem(
       "userData",
       JSON.stringify({
@@ -40,9 +45,21 @@ const App = () => {
   const logout = useCallback(() => {
     // setIsLoggedIn(false);
     setToken(null);
+    setTokenExpirationDate(null);
     setUserId(null);
     localStorage.removeItem("userData");
   }, []);
+
+  useEffect(() => {
+    if (token && tokenExpirationDate) {
+      const remainingTime =
+        tokenExpirationDate.getTime() - new Date().getTime();
+      logoutTimer = setTimeout(logout, remainingTime);
+    } else {
+      clearTimeout(logoutTimer);
+    }
+  }, [token, logout, tokenExpirationDate]);
+  // everytime token changes, timer will runs.
 
   // Auto-login when we reload the Page:=> App.jsx as first page runs and login as dependency to this
   // to this useEffect after compiler rans all other codes in this page!
