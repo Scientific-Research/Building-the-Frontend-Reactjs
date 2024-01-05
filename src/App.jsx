@@ -20,14 +20,21 @@ const App = () => {
   const [userId, setUserId] = useState(false);
 
   // because of this callBack, login runs once and not infinite
-  const login = useCallback((uid, token) => {
+  const login = useCallback((uid, token, expirationDate) => {
     // setIsLoggedIn(true);
     setToken(token);
+    setUserId(uid);
+    const tokenExpirationDate =
+      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60); // it gives us the
+    // current time plus one hour!
     localStorage.setItem(
       "userData",
-      JSON.stringify({ userId: uid, token: token })
+      JSON.stringify({
+        userId: uid,
+        token: token,
+        expiration: tokenExpirationDate.toISOString(),
+      })
     );
-    setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
@@ -43,8 +50,17 @@ const App = () => {
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("userData")); // to convert JSON to normal
     // object in JavaScript - storedData is what i get from LocalStorage in Browser!
-    if (storedData && storedData.token) {
-      login(storedData.userId, storedData.token);
+    if (
+      storedData &&
+      storedData.token &&
+      // if remaining Time is greater than the current time? we are still logged in!
+      new Date(storedData.expiration) > new Date()
+    ) {
+      login(
+        storedData.userId,
+        storedData.token,
+        new Date(storedData.expiration)
+      );
     }
   }, [login]);
 
