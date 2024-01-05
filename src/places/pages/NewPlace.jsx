@@ -55,7 +55,11 @@ export const NewPlace = () => {
       formData.append("title", formState.inputs.title.value);
       formData.append("description", formState.inputs.description.value);
       formData.append("address", formState.inputs.address.value);
-      formData.append("creator", auth.userId);
+      // formData.append("creator", auth.userId); // for more security, we get it directly from
+      // token created in backend adn not userId from token in frontend, because it maybe manipulated
+      // already in frontend by Hacker and is invalid now. when we get it directly from backend,
+      // it is intact and valid.
+
       formData.append("image", formState.inputs.image.value);
 
       await sendRequest(
