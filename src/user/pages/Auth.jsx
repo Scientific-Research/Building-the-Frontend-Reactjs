@@ -76,7 +76,8 @@ export const Auth = () => {
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5000/api/users/login",
+          // "http://localhost:5000/api/users/login",
+          `${process.env.REACT_APP_BACKEND_URL}/users/login`,
           "POST",
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -120,7 +121,8 @@ export const Auth = () => {
         formData.append("image", formState.inputs.image.value);
         // const response = await fetch("http://localhost:5000/api/users/signup", {
         const responseData = await sendRequest(
-          "http://localhost:5000/api/users/signup",
+          // "http://localhost:5000/api/users/signup",
+          `${process.env.REACT_APP_BACKEND_URL}/users/signup`,
           "POST",
           formData
           // fetch data under the hood of sendRequest will detect the right headers
